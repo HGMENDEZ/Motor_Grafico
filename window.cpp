@@ -34,14 +34,17 @@ int Window()
        std::cout << "Failed to initialize GLAD" << std::endl;
        return -1;
    }
+
+   glEnable(GL_DEPTH_TEST);
+
     return 0;
 }
 
-void processInput(GLFWwindow* windows)
-{
-    if (glfwGetKey(windows, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(windows, true);
-}
+//void processInput(GLFWwindow* windows)
+//{
+//    if (glfwGetKey(windows, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+//        glfwSetWindowShouldClose(windows, true);
+//}
 
 
 void framebuffer_size_callback(GLFWwindow* windows, int width, int height)

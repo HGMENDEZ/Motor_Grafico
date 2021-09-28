@@ -157,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentBasico.glsl" />
+    <None Include="fragment_Luces.glsl" />
+    <None Include="vertex_Lucess.glsl" />
     <None Include="verticesBasico.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

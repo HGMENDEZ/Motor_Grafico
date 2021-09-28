@@ -41,9 +41,6 @@
     <ClInclude Include="mouse.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="shaderGLSL.h">
-      <Filter>Archivos de recursos</Filter>
-    </ClInclude>
     <ClInclude Include="mesh.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -59,12 +56,21 @@
     <ClInclude Include="cameraControl.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="shaderGLSL.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="verticesBasico.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="fragmentBasico.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="vertex_Lucess.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="fragment_Luces.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
