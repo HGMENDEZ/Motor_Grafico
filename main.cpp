@@ -54,16 +54,17 @@ int main()
         // be sure to activate shader when setting uniforms/drawing objects
         lightingShader.use();
         lightingShader.setVec3("viewPos", cameraFija.Position);
-        lightingShader.setFloat("material.shininess", 32.0f);
+        lightingShader.setFloat("material.shininess", 5.0f);
 
         // directional light
-        lightingShader.setVec3("dirLight.direction", -0.5f, -0.5f, -0.5f);
-        lightingShader.setVec3("dirLight.ambient", 0.25f, 0.25f, 0.25f);
-        lightingShader.setVec3("dirLight.diffuse", 1.2f, 1.2f, 1.2f);
+        lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);
+        lightingShader.setVec3("dirLight.ambient", 0.55f, 0.55f, 0.55f);
+        lightingShader.setVec3("dirLight.diffuse", 0.50f, 0.50f, 0.50f);
+        lightingShader.setVec3("dirLight.specular", 0.3f, 0.3f, 0.3f);
 
         // world transformation
         glm::mat4 model = glm::mat4(1.0f);
-        lightingShader.setMat4("model", model);//
+        lightingShader.setMat4("model", model);
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(cameraFija.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f); 
@@ -78,7 +79,7 @@ int main()
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.5f, 1.0f));	// it's a bit too big for our scene, so scale it down
         lightingShader.setMat4("model", model);
-        ourModel1.Draw(lightingShader);//
+        ourModel1.Draw(lightingShader);
 
 
 //------------------------------------------------------------------------------------------------------------------------------------
