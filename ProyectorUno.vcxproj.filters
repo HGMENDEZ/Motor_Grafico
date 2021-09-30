@@ -73,5 +73,8 @@
     <None Include="fragment_Luces.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="pruebaProfundidad.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

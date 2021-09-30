@@ -16,22 +16,24 @@
 #include "cameraControl.h"
 #include "model.h"
 
-GLFWwindow* window;  // "extern" de window.cpp   ///
+GLFWwindow* window;  // "extern" de window.cpp  
 
 // Seteado del medidor de tiempo
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-cameraControl cameraFija(glm::vec3(0.0f, 0.0f, 3.0f));//
+cameraControl cameraFija(glm::vec3(0.0f, 0.0f, 0.50f));//
 
 
 int main()
-{
+{//
     Window();
 
 
 
-    Shader lightingShader("D:/Dropbox/SECUENCIAL/Motor_Grafico/vertex_Lucess.glsl", "D:/Dropbox/SECUENCIAL/Motor_Grafico/fragment_Luces.glsl");
+    Shader lightingShader("D:/Dropbox/SECUENCIAL/Motor_Grafico/vertex_Lucess.glsl",
+                        "D:/Dropbox/SECUENCIAL/Motor_Grafico/pruebaProfundidad.glsl"); 
+            //"D:/Dropbox/SECUENCIAL/Motor_Grafico/fragment_Luces.glsl");
 
     Model ourModel1("D:/Dropbox/00PROYECTO/Importaciones/EsferaFBX.fbx");
        

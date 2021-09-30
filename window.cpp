@@ -36,6 +36,7 @@ int Window()
    }
 
    glEnable(GL_DEPTH_TEST);
+   glDepthFunc(GL_LESS); // GL_LESS, GL_LEQUAL
 
     return 0;
 }
