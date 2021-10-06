@@ -3,7 +3,8 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include "window.h"   
+#include "window.h" 
+#include "mouse.h"
 
 extern GLFWwindow* window;
 
@@ -26,6 +27,8 @@ int Window()
    }
    glfwMakeContextCurrent(window);
    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+   glfwSetCursorPosCallback(window, mouse_callback);
+   glfwSetScrollCallback(window, scroll_callback);
 
    // glad: load all OpenGL function pointers
    // ---------------------------------------
