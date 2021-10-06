@@ -1,10 +1,11 @@
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <glm/glm.hpp> 
-#include <glm/gtc/matrix_transform.hpp> 
+#include <glm/gtc/matrix_transform.hpp> //
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
@@ -15,24 +16,20 @@
 #include "VersionYExtensiones.h"
 #include "shaderGLSL.h"
 #include "cameraFija.h"
-#include "cameraControl.h"
+#include "cameraControl.h"//
 //#include "mouse.h"
 #include "model.h"
 
-GLFWwindow* window;  // "extern" de window.cpp // 
+GLFWwindow* window;  // "extern" de window.cpp 
 
 // Seteado del medidor de tiempo
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 cameraControl camaraControlada(glm::vec3(0.0f, 0.0f, 0.50f));
-
-
-
-static float lastX = SCR_WIDTH / 2.0f;
-static float lastY = SCR_HEIGHT / 2.0f;
-
-static bool firstMouse = true;
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+bool firstMouse = true;
 
 //*************************************************************************************************
 unsigned int loadTexture(const char* path);
@@ -45,16 +42,16 @@ int main()
 
 
 
-    Shader lightingShader(  "D:/Dropbox/SECUENCIAL/Motor_Grafico/vertex_Lucess.glsl",
-                        //  "D:/Dropbox/SECUENCIAL/Motor_Grafico/pruebaProfundidad.glsl"); 
-                            "D:/Dropbox/SECUENCIAL/Motor_Grafico/fragment_Luces.glsl");
+    Shader lightingShader("D:/Dropbox/SECUENCIAL/Motor_Grafico/vertex_Lucess.glsl",
+        //  "D:/Dropbox/SECUENCIAL/Motor_Grafico/pruebaProfundidad.glsl"); 
+        "D:/Dropbox/SECUENCIAL/Motor_Grafico/fragment_Luces.glsl");
 
     Model ourModel1("D:/Dropbox/00PROYECTO/Importaciones/EsferaFBX.fbx");
 
     //**********************************************************************************************
     //**********************************************************************************************
 
-      Shader shader("D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Fragment.glsl");
+    Shader shader("D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Fragment.glsl");
     Shader skyboxShader("D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Fragment.glsl");  // 
 
      // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -223,7 +220,7 @@ int main()
         lightingShader.setMat4("model", model);
 
         // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camaraControlada.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f); 
+        glm::mat4 projection = glm::perspective(glm::radians(camaraControlada.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camaraControlada.GetViewMatrix();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", view);
@@ -234,12 +231,12 @@ int main()
         model = glm::scale(model, glm::vec3(1.0f, 1.5f, 1.0f));	// it's a bit too big for our scene, so scale it down
         lightingShader.setMat4("model", model);
         ourModel1.Draw(lightingShader);
-//------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------
 
 
-                // draw skybox as last
+                        // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         skyboxShader.use();
         view = glm::mat4(glm::mat3(camaraControlada.GetViewMatrix())); // remove translation from the view matrix

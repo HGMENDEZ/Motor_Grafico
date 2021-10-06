@@ -1,11 +1,7 @@
-//
-//#include <GLFW/glfw3.h>
-//
-//#include "window.h"
-//
-//
-//
-//static float lastX = SCR_WIDTH / 2.0f;
-//static float lastY = SCR_HEIGHT / 2.0f;
-//
-//static bool firstMouse = true;
+////#pragma once
+////#include "window.h"
+////
+////float lastX = (float)SCR_WIDTH / 2.0;
+////float lastY = (float)SCR_HEIGHT / 2.0;
+////bool firstMouse = true;
+////void mouse_callback(GLFWwindow* window, double xpos, double ypos);

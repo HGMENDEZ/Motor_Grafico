@@ -1,4 +1,4 @@
-
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -29,6 +29,9 @@ int Window()
    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
    glfwSetCursorPosCallback(window, mouse_callback);
    glfwSetScrollCallback(window, scroll_callback);
+
+   // tell GLFW to capture our mouse
+   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
    // glad: load all OpenGL function pointers
    // ---------------------------------------
