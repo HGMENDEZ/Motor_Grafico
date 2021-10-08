@@ -46,13 +46,15 @@ int main()
         //  "D:/Dropbox/SECUENCIAL/Motor_Grafico/pruebaProfundidad.glsl"); 
         "D:/Dropbox/SECUENCIAL/Motor_Grafico/fragment_Luces.glsl");
 
-    Model ourModel1("D:/Dropbox/00PROYECTO/Importaciones/EsferaFBX.fbx");
+    Model ourModel1("D:/Dropbox/0_Libertad/Hobots.obj");
+    Model Base3D("D:/Dropbox/SECUENCIAL/Motor_Grafico/Modelos3D/Base/base.obj");
+    
 
     //**********************************************************************************************
     //**********************************************************************************************
 
     Shader shader("D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/cubeMap_Fragment.glsl");
-    Shader skyboxShader("D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Fragment.glsl");  // 
+    Shader skyboxShader("D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Vertex.glsl", "D:/Dropbox/SECUENCIAL/CubeMaps/skyBox_Fragment.glsl");  
 
      // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -168,7 +170,7 @@ int main()
 
     // load textures
     // -------------
-    unsigned int cubeTexture = loadTexture("D:/Dropbox/SECUENCIAL/Motor_Grafico/Imagenes/Madera.png");
+   // unsigned int cubeTexture = loadTexture("D:/Dropbox/SECUENCIAL/Motor_Grafico/Imagenes/Madera.png");
 
     vector<std::string> faces
     {
@@ -186,7 +188,7 @@ int main()
 
 
 
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))//
     {
         // per-frame time logic
         float currentFrame = glfwGetTime();
@@ -201,9 +203,9 @@ int main()
 
 
 
-//------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
         // be sure to activate shader when setting uniforms/drawing objects
         lightingShader.use();
         lightingShader.setVec3("viewPos", camaraControlada.Position);
@@ -211,29 +213,57 @@ int main()
 
         // directional light
         lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);
-        lightingShader.setVec3("dirLight.ambient", 0.55f, 0.55f, 0.55f);
+        lightingShader.setVec3("dirLight.ambient", 0.6f, 0.6f, 0.6f);
         lightingShader.setVec3("dirLight.diffuse", 0.50f, 0.50f, 0.50f);
         lightingShader.setVec3("dirLight.specular", 0.3f, 0.3f, 0.3f);
 
-        // world transformation
+
+
+
+        // world transformation//
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
 
         // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camaraControlada.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camaraControlada.Zoom), 
+                                                            (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camaraControlada.GetViewMatrix();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", view);
 
         // render the loaded model
         model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -10.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(1.0f, 1.5f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(-18.0f, -6.0f, -35.0f)); 
+        // it's a bit too big for our scene, so scale it down
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
         lightingShader.setMat4("model", model);
-        ourModel1.Draw(lightingShader);
-        //------------------------------------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------------------------------------
+        ourModel1.Draw(lightingShader); // ourModel1.Draw(lightingShader);
+
+
+
+
+
+
+
+
+
+
+
+        // render the loaded model
+        model = glm::mat4(1.0f);
+        // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, -6.5f, -30.0f));
+        // it's a bit too big for our scene, so scale it down
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        // model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(90.0f, 0.0f, 1.0f));
+        model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        
+        lightingShader.setMat4("model", model);
+        Base3D.Draw(lightingShader);
+        //-----------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------
 
 
                         // draw skybox as last
