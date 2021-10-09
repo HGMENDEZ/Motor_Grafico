@@ -5,7 +5,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <glm/glm.hpp> 
-#include <glm/gtc/matrix_transform.hpp> //
+#include <glm/gtc/matrix_transform.hpp> 
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
@@ -186,7 +186,12 @@ int main()
     //**********************************************************************************************
 
 
-
+        // positions of the point lights
+    glm::vec3 pointLightPositions[] = 
+    {
+        glm::vec3(0.7f,  0.2f,  2.0f),
+        glm::vec3(0.0f, 0.0f, -10.0f),
+    };
 
     while (!glfwWindowShouldClose(window))//
     {
@@ -207,15 +212,61 @@ int main()
         //-----------------------------------------------------------------------------------------------------------
         //-----------------------------------------------------------------------------------------------------------
         // be sure to activate shader when setting uniforms/drawing objects
-        lightingShader.use();
+        lightingShader.use();//
         lightingShader.setVec3("viewPos", camaraControlada.Position);
         lightingShader.setFloat("material.shininess", 5.0f);
 
-        // directional light
-        lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);
-        lightingShader.setVec3("dirLight.ambient", 0.6f, 0.6f, 0.6f);
-        lightingShader.setVec3("dirLight.diffuse", 0.50f, 0.50f, 0.50f);
-        lightingShader.setVec3("dirLight.specular", 0.3f, 0.3f, 0.3f);
+
+        //=====================  LUCES  ==========================================================================
+            // directional light
+        lightingShader.setBool("dirLight.damper", false);
+        lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);                                      //
+        lightingShader.setVec3("dirLight.ambient", 0.6f, 0.6f, 0.6f);                                           //
+        lightingShader.setVec3("dirLight.diffuse", 0.8f, 0.8f, 0.8f);                                           //
+        lightingShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);  
+        
+            // Luz puntual Uno
+        lightingShader.setBool("pointLights[0].damper", false);
+        lightingShader.setVec3("pointLights[0].position", -20.0f, -4.0f, -30.0f);
+        lightingShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.setFloat("pointLights[0].constant", 1.0f);
+        lightingShader.setFloat("pointLights[0].linear", 0.09);
+        lightingShader.setFloat("pointLights[0].quadratic", 0.032);
+
+            // Luz puntual dos
+        lightingShader.setBool("pointLights[1].damper", true);
+        lightingShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+        lightingShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.setFloat("pointLights[1].constant", 1.0f);
+        lightingShader.setFloat("pointLights[1].linear", 0.0);
+        lightingShader.setFloat("pointLights[1].quadratic", 0.0);
+
+        // spotLight
+        lightingShader.setBool("spotLight.damper", false);
+        lightingShader.setVec3("spotLight.position", camaraControlada.Position);
+        lightingShader.setVec3("spotLight.direction", camaraControlada.Front);
+        lightingShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+        lightingShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+        lightingShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.setFloat("spotLight.constant", 1.0f);
+        lightingShader.setFloat("spotLight.linear", 0.09);
+        lightingShader.setFloat("spotLight.quadratic", 0.032);
+        lightingShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+        lightingShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));                        //
+                                                                                                                //   
+        //========================================================================================================
+
+
+
+
+
+
+
+
 
 
 
@@ -231,12 +282,17 @@ int main()
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", view);
 
+
+
+
         // render the loaded model
         model = glm::mat4(1.0f);
         // translate it down so it's at the center of the scene
         model = glm::translate(model, glm::vec3(-18.0f, -6.0f, -35.0f)); 
         // it's a bit too big for our scene, so scale it down
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
+        // model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(90.0f, 0.0f, 1.0f));
+        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         lightingShader.setMat4("model", model);
         ourModel1.Draw(lightingShader); // ourModel1.Draw(lightingShader);
 
@@ -257,8 +313,7 @@ int main()
         // it's a bit too big for our scene, so scale it down
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         // model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(90.0f, 0.0f, 1.0f));
-        model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        
+        model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));      
         lightingShader.setMat4("model", model);
         Base3D.Draw(lightingShader);
         //-----------------------------------------------------------------------------------------------------------
