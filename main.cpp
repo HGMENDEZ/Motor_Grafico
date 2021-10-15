@@ -33,7 +33,7 @@ bool firstMouse = true;
 
 //*************************************************************************************************
 unsigned int loadTexture(const char* path);
-unsigned int loadCubemap(vector<std::string> faces);//
+unsigned int loadCubemap(vector<std::string> faces);
 //*************************************************************************************************
 
 int main()
@@ -220,32 +220,34 @@ int main()
         //=====================  LUCES  ==========================================================================
             // directional light
         lightingShader.setBool("dirLight.damper", false);
-        lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);                                      //
-        lightingShader.setVec3("dirLight.ambient", 0.6f, 0.6f, 0.6f);                                           //
-        lightingShader.setVec3("dirLight.diffuse", 0.8f, 0.8f, 0.8f);                                           //
+        lightingShader.setVec3("dirLight.direction", -3.0f, -3.0f, -3.0f);                                      
+        lightingShader.setVec3("dirLight.ambient", 0.6f, 0.6f, 0.6f);                                           
+        lightingShader.setVec3("dirLight.diffuse", 0.8f, 0.8f, 0.8f);                                           
         lightingShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);  
         
             // Luz puntual Uno
-        lightingShader.setBool("pointLights[0].damper", false);
-        lightingShader.setVec3("pointLights[0].position", -20.0f, -4.0f, -30.0f);
+        lightingShader.setBool("pointLights[0].damper", true);
+        lightingShader.setBool("pointLights[1].blinn", false);
+        lightingShader.setVec3("pointLights[0].position", -6.0f, -3.0f, -7.0f); //    DERECHA
         lightingShader.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
         lightingShader.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
         lightingShader.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
-        lightingShader.setFloat("pointLights[0].constant", 1.0f);
+        lightingShader.setFloat("pointLights[0].constant", 0.01f);
         lightingShader.setFloat("pointLights[0].linear", 0.09);
-        lightingShader.setFloat("pointLights[0].quadratic", 0.032);
+        lightingShader.setFloat("pointLights[0].quadratic", 0.03);
 
             // Luz puntual dos
-        lightingShader.setBool("pointLights[1].damper", true);
-        lightingShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+        lightingShader.setBool("pointLights[1].damper", true);///
+        lightingShader.setBool("pointLights[1].blinn", true);
+        lightingShader.setVec3("pointLights[1].position", -17.0f, -3.0f, -7.0f); //   IZQUIERDA
         lightingShader.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
         lightingShader.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
         lightingShader.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
-        lightingShader.setFloat("pointLights[1].constant", 1.0f);
-        lightingShader.setFloat("pointLights[1].linear", 0.0);
-        lightingShader.setFloat("pointLights[1].quadratic", 0.0);
+        lightingShader.setFloat("pointLights[1].constant", 0.01f);
+        lightingShader.setFloat("pointLights[1].linear", 0.09);
+        lightingShader.setFloat("pointLights[1].quadratic", 0.03);
 
-        // spotLight
+            // spotLight
         lightingShader.setBool("spotLight.damper", false);
         lightingShader.setVec3("spotLight.position", camaraControlada.Position);
         lightingShader.setVec3("spotLight.direction", camaraControlada.Front);
@@ -256,8 +258,7 @@ int main()
         lightingShader.setFloat("spotLight.linear", 0.09);
         lightingShader.setFloat("spotLight.quadratic", 0.032);
         lightingShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-        lightingShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));                        //
-                                                                                                                //   
+        lightingShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));                        //  
         //========================================================================================================
 
 

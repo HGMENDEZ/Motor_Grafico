@@ -21,6 +21,7 @@ struct DirLight
 struct PointLight 
 {
     bool damper;
+    bool blinn;
     vec3 position;
     
     float constant;
@@ -66,20 +67,20 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 
 
-
+//==========================================================================================================================
 void main()
 {    
     // properties
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
     
-    // == =====================================================
+    // == ============================================================================
     // Nuestra iluminación está configurada en 3 fases: direccional, 
     // luces puntuales y una linterna opcional Para cada fase se define 
     // una función de cálculo que calcula el color correspondiente por lámpara. 
     // En la función main () tomamos todos los colores calculados y los sumamos 
     // para el color final de este fragmento
-    // == =====================================================
+    // == ============================================================================
     // phase 1: directional lighting
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
 
@@ -95,8 +96,11 @@ void main()
     
     FragColor = vec4(result, 1.0);
 }
+//==========================================================================================================================
 
 
+
+//==========================================================================================================================
 // calculates the color when using a directional light.
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
@@ -119,8 +123,11 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
         return (ambient + diffuse + specular);
     }
 }
+//==========================================================================================================================
 
 
+
+//==========================================================================================================================
 // calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
@@ -138,14 +145,33 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
                 // combine results
         vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
         vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
-        vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+                //vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+
+    spec = 0.0;
+    if(light.blinn)
+    {
+        vec3 halfwayDir = normalize(lightDir + viewDir);  
+        spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
+    }
+    else
+    {
+        vec3 reflectDir = reflect(-lightDir, normal);
+        spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+    }
+
+        vec3 specular = vec3(0.3) * spec; // assuming bright white light color
+
         ambient *= attenuation;
         diffuse *= attenuation;
-        specular *= attenuation;
+       // specular *= attenuation;
+         
         return (ambient + diffuse + specular);
     }
 }
+//==========================================================================================================================
 
+
+//==========================================================================================================================
 // calculates the color when using a spot light.
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
@@ -174,5 +200,5 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
         return (ambient + diffuse + specular);        
     }
-
 }
+//==========================================================================================================================
